@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# @nas0055
+# @trojanzhex
 
 
 import re
