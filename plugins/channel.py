@@ -36,9 +36,9 @@ async def addchannel(client: Bot, message: Message):
         cmd, text = message.text.split(" ", 1)
     except:
         await message.reply_text(
-            "<i>ထည့်ပုံထည့်နည်းကမဟုပ်သေးဘူး သေချာကြည့်လုပ်ပါ!\n\n<code>/ဂရုစိုက်ပြန်လုပ်ပါ</code>  or\n"
+            "<i>Enter in correct format!\n\n<code>/add channelid</code>  or\n"
             "<code>/add @channelusername</code></i>"
-            "\n\nGet Channel id from @nas0055",
+            "\n\nGet Channel id from @ChannelidHEXbot",
         )
         return
     try:
@@ -46,21 +46,21 @@ async def addchannel(client: Bot, message: Message):
             chid = int(text)
             if not len(text) == 14:
                 await message.reply_text(
-                    "နာမည်မှားနေတယ်နော် သေချာလုပ်ပါ"
+                    "Enter valid channel ID"
                 )
                 return
         elif text.startswith("@"):
             chid = text
             if not len(chid) > 2:
                 await message.reply_text(
-                    "နာမည်မှားနေတယ်နော် သေချာလုပ်ပါ"
+                    "Enter valid channel username"
                 )
                 return
     except Exception:
         await message.reply_text(
-            "နာမည်မှားနေတယ်နော် သေချာလုပ်ပါ\n"
-            "ချက်အမှတ်က <b>-100xxxxxxxxxx</b> format\n"
-            "ဂရုစိုက်ပြန်လုပ်ပါ",
+            "Enter a valid ID\n"
+            "ID will be in <b>-100xxxxxxxxxx</b> format\n"
+            "You can also use username of channel with @ symbol",
         )
         return
 
@@ -68,7 +68,7 @@ async def addchannel(client: Bot, message: Message):
         invitelink = await client.export_chat_invite_link(chid)
     except:
         await message.reply_text(
-            "<i>ဒီဘော့ကိုအက်မင်အနေနဲ့ထည့်ထားလေ - '၊ အက်မင်ထည့်ပီးပြန်လုပ်ပါ၊</i>",
+            "<i>Add me as admin in your channel with admin rights - 'Invite Users via Link' and try again</i>",
         )
         return
 
@@ -84,8 +84,8 @@ async def addchannel(client: Bot, message: Message):
     except Exception as e:
         print(e)
         await message.reply_text(
-            f"<i>User {user.first_name} အဲ့ချယ်နယ်မှာ ပိုင်ရှင်ကိုဘန်းရှင်သုံးလိုမရပါ။😡😡"
-            "\n\nဂရုစိုက်ပြန်လုပ်ပါ🙄🙄 ပါမစ် ပေးပါ</i>",
+            f"<i>User {user.first_name} couldn't join your channel! Make sure user is not banned in channel."
+            "\n\nOr manually add the user to your channel and try again</i>",
         )
         return
 
@@ -98,9 +98,9 @@ async def addchannel(client: Bot, message: Message):
         return
 
     intmsg = await message.reply_text(
-        "<i>☺️ချယ်နယိကဒေတာတွေကိုကူးထည့်နေတာမို၊ခနစောင့်ပါ၊😍"
-        "\n\n🙂ဒါက ဒေတာများရင်များသလောက်ကြာမှာပါ၊ ၁၀မိနစ်လောက်ပေါ့၊🙂"
-        "\nတခြားဘာမှအမိန့်မပေးရဘူးနော်၊ကူးတာပျက်သွားမယ်🤨🤨!</i>"
+        "<i>Please wait while I'm adding your channel files to DB"
+        "\n\nIt may take some time if you have more files in channel!!"
+        "\nDon't give any other commands now!</i>"
     )
 
     channel_id = chatdetails.id
@@ -110,7 +110,7 @@ async def addchannel(client: Bot, message: Message):
 
     already_added = await ifexists(channel_id, group_id)
     if already_added:
-        await intmsg.edit_text("😏😏 Channel ka add p thar lay")
+        await intmsg.edit_text("Channel already added to db!")
         return
 
     docs = []
@@ -190,7 +190,7 @@ async def addchannel(client: Bot, message: Message):
 
     await channelgroup(channel_id, channel_name, group_id, group_name)
 
-    await intmsg.edit_text("ချယ်နယ်အက်တာပီးသွားပါပီ 🥳🥳")
+    await intmsg.edit_text("Channel added successfully!")
 
 
 @Client.on_message(filters.group & filters.command(["del"]))
@@ -203,7 +203,7 @@ async def deletechannelfilters(client: Bot, message: Message):
         cmd, text = message.text.split(" ", 1)
     except:
         await message.reply_text(
-            "<i>ထည့်ပုံထည့်နည်းကမဟုပ်သေးဘူး သေချာကြည့်လုပ်ပါ!\n\n<code>/del channelid</code>  or\n"
+            "<i>Enter in correct format!\n\n<code>/del channelid</code>  or\n"
             "<code>/del @channelusername</code></i>"
             "\n\nrun /filterstats to see connected channels",
         )
@@ -220,14 +220,14 @@ async def deletechannelfilters(client: Bot, message: Message):
             chid = text
             if not len(chid) > 2:
                 await message.reply_text(
-                    "နာမည်မှားနေတယ်နော် သေချာလုပ်ပါ"
+                    "Enter valid channel username"
                 )
                 return
     except Exception:
         await message.reply_text(
             "Enter a valid ID\n"
-            "run /www.gg \n"
-            "ဂရုစိုက်ပြန်လုပ်ပါ🙄🙄",
+            "run /filterstats to see connected channels\n"
+            "You can also use username of channel with @ symbol",
         )
         return
 
@@ -238,11 +238,11 @@ async def deletechannelfilters(client: Bot, message: Message):
             "<i>User must be present in given channel.\n\n"
             "If user is already present, send a message to your channel and try again</i>"
         )
-        returnDon't give any other commands now
+        return
 
     intmsg = await message.reply_text(
-        "<i>အကုန်ဖျက်မှာနော်"
-        "\n\nတခြားအမိန့်မပေးနဲ့ဦးဒါမပီးမချင်း!</i>"
+        "<i>Please wait while I'm deleteing your channel"
+        "\n\nDon't give any other commands now!</i>"
     )
 
     channel_id = chatdetails.id
@@ -252,28 +252,28 @@ async def deletechannelfilters(client: Bot, message: Message):
 
     already_added = await ifexists(channel_id, group_id)
     if not already_added:
-        await intmsg.edit_text("ဘယ်လိုသုံးရင်ကောင်းမလဲ🙄🙄!")
+        await intmsg.edit_text("That channel is not currently added in db!")
         return
 
     delete_files = await deletefiles(channel_id, channel_name, group_id, group_name)
     
     if delete_files:
         await intmsg.edit_text(
-            "ဖြုတ်ထားတယ် 😂!"
+            "Channel deleted successfully!"
         )
     else:
         await intmsg.edit_text(
-            "ဖြုတ်ထားတယ် 😂"
+            "Couldn't delete Channel"
         )
 
 
 @Client.on_message(filters.group & filters.command(["delall"]))
 async def delallconfirm(client: Bot, message: Message):
     await message.reply_text(
-        "ဖြုတ်ထားတယ် 😂",
+        "Are you sure?? This will disconnect all connected channels and deletes all filters in group",
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(text="YES",callback_data="delallconfirm")],
-            [InlineKeyboardButton(text="Yes",callback_data="delallcancel")]
+            [InlineKeyboardButton(text="CANCEL",callback_data="delallcancel")]
         ])
     )
 
@@ -284,8 +284,8 @@ async def deleteallfilters(client: Bot, message: Message):
         return
 
     intmsg = await message.reply_to_message.reply_text(
-        "<i>ဖြုတ်ထားတယ် 😂</i>"
-        "\n\nဖြုတ်ထားတယ် 😂!</i>"
+        "<i>Please wait while I'm deleteing your channel.</i>"
+        "\n\nDon't give any other commands now!</i>"
     )
 
     group_id = message.reply_to_message.chat.id
@@ -296,7 +296,7 @@ async def deleteallfilters(client: Bot, message: Message):
 
     if delete_all == 0:
         await intmsg.edit_text(
-            "ဖြုတ်ထားတယ် 😂!"
+            "All filters from group deleted successfully!"
         )
     elif delete_all == 1:
         await intmsg.edit_text(
